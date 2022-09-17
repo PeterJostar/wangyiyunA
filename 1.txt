@@ -1,0 +1,68 @@
+安装
+
+$ git clone git@github.com:Binaryify/NeteaseCloudMusicApi.git
+$ cd NeteaseCloudMusicApi
+$ npm install
+
+或者
+
+$ git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
+$ cd NeteaseCloudMusicApi
+$ npm install
+
+运行
+
+调用前务必阅读文档的调用前须知
+
+$ node app.js
+
+服务器启动默认端口为 3000,若不想使用 3000 端口,可使用以下命令: Mac/Linux
+
+$ PORT=4000 node app.js
+
+windows 下使用 git-bash 或者 cmder 等终端执行以下命令:
+
+$ set PORT=4000 && node app.js
+
+Vercel 部署
+
+v4.0.8 加入了 Vercel 配置文件,可以直接在 Vercel 下部署了,不需要自己的服务器
+操作方法
+
+    fork 此项目
+    在 Vercel 官网点击 New Project
+    点击 Import Git Repository 并选择你 fork 的此项目并点击import
+    点击 PERSONAL ACCOUNT 的 select
+    直接点Continue
+    PROJECT NAME自己填,FRAMEWORK PRESET 选 Other 然后直接点 Deploy 接着等部署完成即可
+
+可以在Node.js调用
+
+v3.31.0后支持Node.js调用,导入的方法为module内的文件名,返回内容包含status和body,status为状态码,body为请求返回内容,参考module_example 文件夹下的 test.js
+
+const { login_cellphone, user_cloud } = require('NeteaseCloudMusicApi')
+async function main() {
+  try {
+    const result = await login_cellphone({
+      phone: '手机号',
+      password: '密码'
+    })
+    console.log(result)
+    const result2 = await user_cloud({
+      cookie: result.body.cookie // 凭证
+    })
+    console.log(result2.body)
+      
+  } catch (error) {
+    console.log(error)
+  }
+}
+main()
+
+支持 TypeScript
+
+// test.ts
+import { banner } from 'NeteaseCloudMusicApi'
+banner({ type:0 }).then(res=>{
+  console.log(res)
+})
